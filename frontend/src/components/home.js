@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import SignIn from './sign-in';
-import SignUp from './sign-up';
-
 function Home() {
-  const [isNewUser, setIsNewUser] = useState(true);
+  const [setIsNewUser] = useState(true);
 
   return (
     <div className="home-container">
@@ -11,7 +8,6 @@ function Home() {
       <p>Are you a new user?</p>
       <button onClick={() => setIsNewUser(true)}>Yes, sign up!</button>
       <button onClick={() => setIsNewUser(false)}>No, sign in!</button>
-      {isNewUser ? <SignUp /> : <SignIn />}
     </div>
   );
 }
