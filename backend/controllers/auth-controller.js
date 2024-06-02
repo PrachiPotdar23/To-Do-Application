@@ -17,7 +17,6 @@ const signup = async (req, res) => {
 
     await newUser.save();
 
-    // Generate a JWT token and return it
     const token = newUser.generateAuthToken();
     res.status(201).json({ message: 'Sign-up successful', token });
   } catch (error) {
@@ -42,7 +41,6 @@ const signin = async (req, res) => {
       return res.status(401).json({ message: 'Invalid password' });
     }
 
-    // If the user is valid, generate a JWT token and return it
     const token = user.generateAuthToken();
     res.status(200).json({ message: 'Sign-in successful', token });
   } catch (error) {
