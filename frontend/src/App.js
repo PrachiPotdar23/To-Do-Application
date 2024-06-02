@@ -1,21 +1,23 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import NavBar from './components/nav-bar';
-import Home from './components/home';
-import SignIn from './components/sign-in';
-import SignUp from './components/sign-up';
-import TodoList from './components/todo-list';
+// App.js
 
-function App({ api }) {
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import SignUp from './components/sign-up';
+import SignIn from './components/sign-in';
+import TodoList from './components/todo-list';
+import './App.css'; // Import your global CSS file
+
+function App() {
   return (
     <Router>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="api/signin" element={<SignIn />} />
-        <Route path="api/signup" element={<SignUp />} />
-        <Route path="api/todos" element={<TodoList />} />
-      </Routes>
+      <div className="bg-screen"> {/* Set background image */}
+        <Routes>
+          <Route path="/" element={<Navigate to="/signin" />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/todos" element={<TodoList />} />
+        </Routes>
+      </div>
     </Router>
   );
 }

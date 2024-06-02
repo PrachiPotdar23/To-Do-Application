@@ -1,97 +1,101 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Form, FormGroup, Label, Input, Button } from "reactstrap";
-import api from "../api";
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { signUp } from '../api';
+import '../App.css';
 
-const SignUp = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+function SignUp() {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      alert('Passwords do not match');
       return;
     }
     try {
-      const response = await api.signUp(firstName, lastName, email, password);
-      if (response.ok) {
-        navigate("/api/signin", { replace: true });
+      const response = await signUp(firstName, lastName, email, password);
+      if (response.status === 201) {
+        navigate('/signin', { replace: true });
+      } else {
+        alert('Error during sign up');
       }
     } catch (error) {
-      console.error(error);
+      if (error.response) {
+        // Server responded with a status code outside the range of 2xx
+        console.error('Error response data:', error.response.data);
+        console.error('Error response status:', error.response.status);
+        console.error('Error response headers:', error.response.headers);
+      } else if (error.request) {
+        // Request was made but no response received
+        console.error('Error request:', error.request);
+      } else {
+        // Something else happened
+        console.error('Error message:', error.message);
+      }
+      alert('An error occurred while signing up');
     }
   };
 
   return (
-    <div className="signup-container">
-      <h1>Sign Up</h1>
-      <Form onSubmit={handleSubmit}>
-        <FormGroup>
-          <Label for="firstName">First Name</Label>
-          <Input
+    <div className="container">
+      <div className="form-container">
+        <h1 className="heading">Sign Up</h1>
+        <form onSubmit={handleSubmit}>
+          <input
             type="text"
-            name="firstName"
-            id="firstName"
-            placeholder="Enter first name"
+            placeholder="First Name"
+            className="input-field"
             value={firstName}
             onChange={(event) => setFirstName(event.target.value)}
+            required
           />
-        </FormGroup>
-        <FormGroup>
-          <Label for="lastName">Last Name</Label>
-          <Input
+          <input
             type="text"
-            name="lastName"
-            id="lastName"
-            placeholder="Enter last name"
+            placeholder="Last Name"
+            className="input-field"
             value={lastName}
             onChange={(event) => setLastName(event.target.value)}
+            required
           />
-        </FormGroup>
-        <FormGroup>
-          <Label for="email">Email</Label>
-          <Input
+          <input
             type="email"
-            name="email"
-            id="email"
-            placeholder="Enter email"
+            placeholder="Email"
+            className="input-field"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
+            required
           />
-        </FormGroup>
-        <FormGroup>
-          <Label for="password">Password</Label>
-          <Input
+          <input
             type="password"
-            name="password"
-            id="password"
-            placeholder="Enter password"
+            placeholder="Password"
+            className="input-field"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
+            required
           />
-        </FormGroup>
-        <FormGroup>
-          <Label for="confirmPassword">Confirm Password</Label>
-          <Input
+          <input
             type="password"
-            name="confirmPassword"
-            id="confirmPassword"
-            placeholder="Confirm password"
+            placeholder="Confirm Password"
+            className="input-field"
             value={confirmPassword}
             onChange={(event) => setConfirmPassword(event.target.value)}
+            required
           />
-        </FormGroup>
-        <Button color="primary" type="submit">
-          Sign Up
-        </Button>
-      </Form>
+          <button type="submit" className="submit-button">
+            Sign Up
+          </button>
+        </form>
+        <p className="text-center text-gray-600 mt-4">
+          Already have an account? <Link to="/signin" className="text-pink-500">Sign in here</Link>
+        </p>
+      </div>
     </div>
   );
-};
+}
 
 export default SignUp;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import api from '../api';
+import { useNavigate, Link } from 'react-router-dom';
+import { signIn } from '../api';
+import '../App.css';
 
 function SignIn() {
   const [email, setEmail] = useState('');
@@ -11,44 +11,48 @@ function SignIn() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await api.signIn(email, password);
-      if (response.ok) {
-        navigate('/api/todos', { replace: true });
+      const response = await signIn(email, password);
+      if (response.status === 200) {
+        navigate('/todos', { replace: true });
+      } else {
+        alert('Invalid email or password');
       }
     } catch (error) {
-      console.error(error);
+      console.error('Error during sign-in:', error);
+      alert('An error occurred while signing in');
     }
   };
 
   return (
-    <div className="signin-container">
-      <div className="signin-form">
-        <h2>Sign In</h2>
-        <Form onSubmit={handleSubmit}>
-          <FormGroup>
-            <Label for="email">Email</Label>
-            <Input
+    <div className="bg-screen"> {/* Set background image */}
+      <div className="container">
+        <div className="form-container">
+          <h1 className="heading">Sign In</h1>
+          <form onSubmit={handleSubmit}>
+            <input
               type="email"
-              name="email"
-              id="email"
-              placeholder="Enter email"
+              placeholder="Email"
+              className="input-field"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
+              required
             />
-          </FormGroup>
-          <FormGroup>
-            <Label for="password">Password</Label>
-            <Input
+            <input
               type="password"
-              name="password"
-              id="password"
-              placeholder="Enter password"
+              placeholder="Password"
+              className="input-field"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
+              required
             />
-          </FormGroup>
-          <Button type="submit" color="primary">Sign In</Button>
-        </Form>
+            <button type="submit" className="submit-button">
+              Sign In
+            </button>
+          </form>
+          <p className="text-center text-gray-600 mt-4">
+            Don't have an account? <Link to="/signup" className="text-pink-500">Sign up here</Link>
+          </p>
+        </div>
       </div>
     </div>
   );
