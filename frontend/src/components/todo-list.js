@@ -13,7 +13,6 @@ const TodoList = () => {
   const [editedTodoTitle, setEditedTodoTitle] = useState('');
   const [setIsAuthenticated] = useState(false); 
 
-
   useEffect(() => {
     fetchTodos();
   }, []);
@@ -95,6 +94,7 @@ const TodoList = () => {
       setError('Failed to update todo');
     }
   };
+
   const handleSignOut = async () => {
     try {
       localStorage.removeItem('authToken');
@@ -105,8 +105,6 @@ const TodoList = () => {
       setError('Failed to sign out');
     }
   };
-  
-  
 
   return (
     <div>
@@ -129,7 +127,7 @@ const TodoList = () => {
 
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <ul style={{ maxHeight: '300px', overflowY: 'auto' }}>
-          {todos.map((todo) => (
+          {todos.map((todo, index) => (
             <li key={todo._id} className="todo-item">
               {editingTodoId === todo._id ? (
                 <>
@@ -142,7 +140,7 @@ const TodoList = () => {
                 </>
               ) : (
                 <>
-                  <span>{todo.title} - {todo.completed ? 'Completed' : 'Incomplete'}</span>
+                  <span>{index + 1}. {todo.title} - {todo.completed ? 'Completed' : 'Incomplete'}</span>
                   <button onClick={() => handleToggleComplete(todo._id)} className="complete-button">
                     {todo.completed ? 'Mark as Incomplete' : 'Mark as Complete'}
                   </button>
