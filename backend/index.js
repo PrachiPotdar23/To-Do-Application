@@ -8,12 +8,16 @@ const todosRoute = require('./routes/todos');
 
 const app = express();
 
-app.use(cors());
+app.use(cors()); // Use CORS middleware
 app.use(bodyParser.json());
 
 mongoose.connect('mongodb://localhost:27017/todoapp', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+}).then(() => {
+  console.log('Connected to MongoDB');
+}).catch(err => {
+  console.error('Failed to connect to MongoDB', err);
 });
 
 app.use('/api/signup', signUpRoute);
