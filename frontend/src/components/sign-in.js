@@ -6,29 +6,33 @@ import '../App.css';
 function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     try {
       const response = await signIn(email, password);
+      
       if (response.status === 200) {
-        navigate('/todos', { replace: true });
+        localStorage.setItem('isAuthenticated', true);
+        navigate('/todos');
       } else {
-        alert('Invalid email or password');
+        setError('Invalid email or password');
       }
     } catch (error) {
       console.error('Error during sign-in:', error);
-      alert('An error occurred while signing in');
+      setError('An error occurred while signing in');
     }
   };
 
   return (
-    <div className="bg-screen"> {/* Set background image */}
+    <div className="bg-screen"> 
       <div className="container">
         <div className="form-container">
           <h1 className="heading">Sign In</h1>
-          <form onSubmit={handleSubmit}>
+          <form>
             <input
               type="email"
               placeholder="Email"
@@ -45,10 +49,11 @@ function SignIn() {
               onChange={(event) => setPassword(event.target.value)}
               required
             />
-            <button type="submit" className="submit-button">
+            <button type="submit" onClick={handleSubmit} className="submit-button">
               Sign In
             </button>
           </form>
+          {error && <p className="text-red-500">{error}</p>}
           <p className="text-center text-gray-600 mt-4">
             Don't have an account? <Link to="/signup" className="text-pink-500">Sign up here</Link>
           </p>

@@ -1,14 +1,42 @@
 import axios from 'axios';
 
-const api = axios.create({
-  baseURL: 'http://localhost:3000/api',
-});
+export const signUp = (firstName, lastName, email, password) => {
+  return axios.post('http://localhost:3000/api/signup', {
+    firstName,
+    lastName,
+    email,
+    password,
+  });
+};
 
-export const signIn = (email, password) => api.post('/signin', { email, password });
-export const signUp = (firstName, lastName, email, password) => api.post('/signup', { firstName, lastName, email, password });
-export const createTodo = (title) => api.post('/todos', { title });
-export const getTodos = () => api.get('/todos');
-export const updateTodo = (id, completed) => api.put(`/todos/${id}`, { completed });
-export const deleteTodo = (id) => api.delete(`/todos/${id}`);
+export const signIn = (email, password) => {
+  return axios.post('http://localhost:3000/api/signin', {
+    email,
+    password,
+  });
+};
 
-export default api;
+export const signOut = () => {
+  localStorage.removeItem('authToken');
+  return Promise.resolve();
+};
+
+export const getTodos = async () => {
+  const response = await axios.get('http://localhost:3000/api/todos');
+  return response.data;
+};
+
+export const createTodo = async ({ title, completed }) => {
+  const response = await axios.post('http://localhost:3000/api/todos', { title, completed });
+  return response.data;
+};
+
+export const updateTodo = async (title, updatedTodo) => {
+  const response = await axios.put(`http://localhost:3000/api/todos/${encodeURIComponent(title)}`, updatedTodo);
+  return response.data;
+};
+
+
+export const deleteTodo = async (id) => {
+  await axios.delete(`http://localhost:3000/api/todos/${id}`);
+};
