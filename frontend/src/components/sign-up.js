@@ -87,7 +87,7 @@ function SignUp() {
             Sign Up
           </button>
         </form>
-        <p className="text-center text-gray-600 mt-4">
+        <p className="account">
           Already have an account? <Link to="/signin" className="text-pink-500">Sign in here</Link>
         </p>
       </div>

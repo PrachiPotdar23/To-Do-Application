@@ -114,8 +114,9 @@ const TodoList = (handleSignOut) => {
           <button type="submit" className="submit-button">Add Todo</button>
         </form>
 
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <ul style={{ maxHeight: '300px', overflowY: 'auto' }}>
+        {error && <p className="error">{error}</p>}
+        <ul className="scrollableList">
+  
           {todos.map((todo, index) => (
             <li key={todo._id} className="todo-item">
               {editingTodoId === todo._id ? (
