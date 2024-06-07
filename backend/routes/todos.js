@@ -1,5 +1,6 @@
 const express = require('express');
 const Todo = require('../models/todo-model');
+const errorHandler = require('./error');
 
 const router = express.Router();
 
@@ -60,5 +61,5 @@ router.delete('/:id', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
-
+router.use(errorHandler);
 module.exports = router;

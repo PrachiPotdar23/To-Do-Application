@@ -1,5 +1,6 @@
 
 const express = require('express');
+const errorHandler = require('./error');
 const router = express.Router();
 
 router.post('/signout', (req, res) => {
@@ -8,5 +9,5 @@ router.post('/signout', (req, res) => {
   res.clearCookie('token'); 
   res.status(200).send({ message: 'Signed out successfully' });
 });
-
+router.use(errorHandler); 
 module.exports = router;

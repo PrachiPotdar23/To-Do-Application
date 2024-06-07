@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const User = require('../models/user-model');
-
+const errorHandler = require('./error');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
@@ -23,4 +23,5 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.use(errorHandler);
 module.exports = router;
