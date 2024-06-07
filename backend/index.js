@@ -8,7 +8,7 @@ const todosRoute = require('./routes/todos');
 
 const app = express();
 
-app.use(cors()); // Use CORS middleware
+app.use(cors()); 
 app.use(bodyParser.json());
 
 mongoose.connect('mongodb://localhost:27017/todoapp', {

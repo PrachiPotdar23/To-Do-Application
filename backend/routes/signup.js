@@ -1,8 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const User = require('../models/user-model');
-const errorHandler = require('./error'); // Ensure you have the correct path
-
+const errorHandler = require('./error'); 
 const router = express.Router();
 
 router.post('/', async (req, res, next) => {
@@ -26,11 +25,11 @@ router.post('/', async (req, res, next) => {
     await newUser.save();
     res.status(201).send('User created successfully');
   } catch (error) {
-    next(error); // Pass the error to the error handler middleware
+    next(error); 
   }
 });
 
-// Use the error handler middleware
+
 router.use(errorHandler);
 
 module.exports = router;

@@ -25,16 +25,22 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
-  const { completed } = req.body;
+  const { title, completed } = req.body;
   try {
     const todo = await Todo.findById(id);
     if (!todo) {
       return res.status(404).send('Todo not found');
     }
 
-    todo.completed = completed;
-    await todo.save();
-    res.status(200).json(todo);
+    if (title !== undefined) {
+      todo.title = title;
+    }
+    if (completed !== undefined) {
+      todo.completed = completed;
+    }
+    
+    const updatedTodo = await todo.save();
+    res.status(200).json(updatedTodo);
   } catch (error) {
     res.status(500).send('Server error');
   }
