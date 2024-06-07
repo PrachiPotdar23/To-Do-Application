@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { getTodos, createTodo, updateTodo, deleteTodo } from '../api'; 
-import NavigationBar from './navbar'; 
+import { getTodos, createTodo, updateTodo, deleteTodo } from '../api';
+import NavigationBar from './navbar';
 import '../App.css';
-import { useNavigate } from 'react-router-dom'; 
 
-const TodoList = () => {
-  const navigate = useNavigate(); 
+const TodoList = (handleSignOut) => {
   const [newTodo, setNewTodo] = useState('');
   const [todos, setTodos] = useState([]);
   const [error, setError] = useState(null);
   const [editingTodoId, setEditingTodoId] = useState(null);
   const [editedTodoTitle, setEditedTodoTitle] = useState('');
-  const [setIsAuthenticated] = useState(false); 
-
   useEffect(() => {
     fetchTodos();
   }, []);
@@ -72,39 +68,32 @@ const TodoList = () => {
   };
 
   const handleEditTodo = (id, title) => {
+    console.log('Editing todo:', { id, title });
     setEditingTodoId(id);
     setEditedTodoTitle(title);
   };
 
-  const handleSaveEditedTodo = async (id) => {
+  const handleSaveEditedTodo = async (id, title) => {
+    console.log('Saving edited todo:', { id, title });
     try {
-      console.log('Editing todo with ID:', id);
-      console.log('Edited todo title:', editedTodoTitle);
-
-      const updatedTodo = await updateTodo(id, { title: editedTodoTitle });
-      console.log('Updated todo:', updatedTodo);
-
-      const updatedTodos = todos.map(todo => (todo._id === id ? updatedTodo : todo));
-      console.log('Updated todos:', updatedTodos);
-
-      setTodos(updatedTodos);
+      const updatedTodo = await updateTodo(id, { title });
+      console.log('Updated todo from API:', updatedTodo);
+  
+      setTodos(prevTodos => {
+        const updatedTodos = prevTodos.map(todo => (todo._id === id ? updatedTodo : todo));
+        console.log('Updated todos list:', updatedTodos);
+        return updatedTodos;
+      });
       setEditingTodoId(null);
+      setEditedTodoTitle('');
     } catch (error) {
       console.error('Error updating todo:', error);
       setError('Failed to update todo');
     }
   };
+  
 
-  const handleSignOut = async () => {
-    try {
-      localStorage.removeItem('authToken');
-      setIsAuthenticated(false);
-      navigate('/signin');
-    } catch (error) {
-      console.error('Error signing out:', error);
-      setError('Failed to sign out');
-    }
-  };
+  
 
   return (
     <div>
@@ -136,7 +125,7 @@ const TodoList = () => {
                     value={editedTodoTitle}
                     onChange={(e) => setEditedTodoTitle(e.target.value)}
                   />
-                  <button onClick={() => handleSaveEditedTodo(todo._id)} className="edit-button">Save</button>
+                  <button onClick={() => handleSaveEditedTodo(todo._id, editedTodoTitle)} className="edit-button">Save</button>
                 </>
               ) : (
                 <>

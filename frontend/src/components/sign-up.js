@@ -26,15 +26,12 @@ function SignUp() {
       }
     } catch (error) {
       if (error.response) {
-        // Server responded with a status code outside the range of 2xx
         console.error('Error response data:', error.response.data);
         console.error('Error response status:', error.response.status);
         console.error('Error response headers:', error.response.headers);
       } else if (error.request) {
-        // Request was made but no response received
         console.error('Error request:', error.request);
       } else {
-        // Something else happened
         console.error('Error message:', error.message);
       }
       alert('An error occurred while signing up');

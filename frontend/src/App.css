@@ -1,12 +1,10 @@
-/* Importing Tailwind CSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Styles */
 .bg-screen {
-  @apply bg-cover bg-center fixed inset-0; /* Set background image properties */
-  background-image: url('todo_bg2.jpg'); /* Replace 'path/to/your/background/image.jpg' with the actual path to your image */
+  @apply bg-cover bg-center fixed inset-0;
+  background-image: url('todo_bg2.jpg'); 
 }
 
 .heading {
@@ -17,7 +15,7 @@
   @apply w-full max-w-lg p-8 bg-blue-100 shadow-lg rounded-lg;
   position: absolute;
   top: 50%;
-  left: 60%;
+  left: 50%;
   transform: translate(-50%, -50%);
 }
 
@@ -35,15 +33,15 @@
 
 .todo-list-container {
   @apply w-full max-w-lg p-8 bg-blue-100 shadow-lg rounded-lg;
-  margin: 0 auto; /* Center horizontally */
-  margin-top: 20px; /* Add some top margin for separation */
+  margin: 0 auto; 
+  margin-top: 20px; 
 }
 
 .todo-input {
   @apply w-full p-4 mb-4 border border-blue-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-200;
 }
 
-.edit-button{
+.edit-button {
   @apply bg-pink-400 hover:bg-pink-500 text-white font-bold py-2 px-4 rounded-lg ml-2;
 }
 
@@ -58,14 +56,45 @@
 .complete-button {
   @apply bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-lg ml-2;
 }
+
 .navbar {
-  @apply bg-pink-400; 
+  @apply bg-pink-400 flex justify-between items-center p-4;
 }
-.nav-link{
+
+.nav-link {
   @apply flex justify-end;
 }
 
 .nav-button {
-  @apply text-white font-bold hover:text-gray-200 transition-colors duration-300 ;
-  
+  @apply text-white font-bold hover:text-gray-200 transition-colors duration-300;
+}
+
+.search-input {
+  @apply w-full p-4 mb-4 border border-blue-100 rounded-lg focus:outline-none focus:ring-pink-200;
+}
+
+.todo-cards {
+  @apply flex flex-wrap gap-4 justify-center;
+  max-height: 400px; 
+  overflow-y: auto; 
+}
+
+.todo-card {
+  @apply bg-pink-200 border border-gray-200 rounded-lg p-4 shadow-md;
+}
+
+.todo-cards::-webkit-scrollbar {
+  width: 8px;
+}
+
+.todo-cards::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+
+.todo-cards::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+.todo-cards::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
