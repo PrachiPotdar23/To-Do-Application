@@ -53,8 +53,8 @@ function SignIn() {
               Sign In
             </button>
           </form>
-          {error && <p className="text-red-500">{error}</p>}
-          <p className="text-center text-gray-600 mt-4">
+          {error && <p className="error">{error}</p>}
+          <p className="account">
             Don't have an account? <Link to="/signup" className="text-pink-500">Sign up here</Link>
           </p>
         </div>
